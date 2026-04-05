@@ -1,12 +1,13 @@
 # Fireworks AMLE Take-Home Report
 
-## Step-by-Step Run Instructions
+## 🚀  Step-by-Step Run Instructions
 
 1. **Setup Environment**: Ensure your `.env` file contains a valid `FIREWORKS_API_KEY`. Run `./setup.sh` to install dependencies and initialize the vector embeddings and SQLite database.
 2. **Start the Server**: Boot the agentic backend by running `python main.py` in your terminal.
 3. **Access the Interactive Web UI**: Open your web browser and navigate to `http://localhost:8000`. You will be greeted by a custom conversational Chat UI. You can type ad-hoc questions here and instantly test the agent!
 4. **Run the Evaluations**: While the server is running in the background, open a new terminal tab and execute `python evaluate.py`. This script will output live evaluations, print trace metrics (such as the exact synthesized SQL queries, latency, and tokens), and save a final JSONL log to the `eval_results/` directory.
 5. **Review the Final Deliverable output**: The best answers the agent crafted for the dev-set over multiple batch iterations have been automatically saved to `dev_answers.json` in the **root directory**. Please inspect this file to verify the final qualitative answers.
+
 ## AI Assistance Disclosure
 As permitted by the assignment guidelines, I utilized an AI coding assistant (Agentic AI) to help automate rote boilerplate generation for the FastAPI backend structure, scaffold dynamic vanilla CSS/HTML blocks for the frontend UI, and rapidly generate syntax for logging utilities during the evaluation loop iteration phase. All core logic, system architecture, API orchestration prompts, data handling, and evaluation trade-offs were manually steered and validated.
 
@@ -51,7 +52,6 @@ For rigorous telemetry, the evaluation loop now captures:
 
 ### Evaluation Results & Known Failure Modes
 Across multiple batch evaluation iterations, the system achieved an average score of **4.82 / 10.0** on the public dev set. The system excelled at data lookups and negative grounding bounding constraints. However, I identified three primary questions where the agent consistently struggled (average score ≤ 0.25), indicating clear failure modes:
-
 1. **`q_011` (Fastest revenue growth rate computation across companies)**: The agent struggles to formulate the highly complex SQL required to compute growth rates dynamically across multiple rows and companies, ultimately failing the strict entity matching.
 2. **`q_018` (Highest current ratio computation)**: The system frequently gets derailed trying to execute cross-table divisions (`current assets / current liabilities`) in a zero-shot SQL generation attempt, leading to syntax errors or incorrect mathematical formatting.
 3. **`q_025` (Apple's Services segment growth vs strategic importance)**: This relies heavily on a multi-hop reasoning process involving *both* mathematical SQL execution and qualitative PDF generation. The agent often zeroes in on the math and loses the context required to execute the final qualitative PDF vector search.
@@ -63,6 +63,14 @@ Across multiple batch evaluation iterations, the system achieved an average scor
 
 ## Future Improvements
 *   **Self-Correcting SQL Execution:** Complex questions like `q_011` and `q_018` fail zero-shot SQL generation. I would implement an auto-correction loop where SQL execution errors (`try/except`) are caught and fed back to the LLM immediately to debug and rewrite its own query rather than swallowing the error.
+*   **Granular, Multi-Stage Evaluation Framework:** To gain a deeper understanding of system performance, I would move from end-to-end "Success/Fail" metrics into a 3-tier evaluation workflow:
+    1. **Ingestion Evaluation:** Testing the fidelity of the PDF-to-SQL/Vector transition (e.g., ensuring 100% table structure preservation during parsing).
+    2. **Retrieval Evaluation:** Measuring "Hit Rate" and "MRR" (Mean Reciprocal Rank) for the vector search and "SQL Accuracy" for the database tool, independent of the final answer quality.
+    3. **Generation Evaluation:** Utilizing specialized LLM-judges to measure "Faithfulness" (grounding in retrieved context) and "Answer Relevance" (how directly the synthesis answers the user's specific prompt). This granularity allows for isolating whether a failure is a "search issue" or a "reasoning issue."
+*   **Multi-Modal Document Intelligence:** Currently, the system relies on text-based parsing which misses critical financial data stored in non-textual modalities. I would implement:
+    1. **VLM integration:** Using Vision-Language Models (e.g., Llama-3-Vision) to "read" and describe quarterly growth charts and performance graphs directly from the PDF pages.
+    2. **Layout-Aware Extraction:** Employing advanced parsers (like Unstructured or Marker) to detect complex objects like charts/graphs and convert them into machine-readable formats (JSON/Markdown) during the ingestion phase.
+    3. **Visual-Textual Correlation:** Implementing a cross-check mechanism where the agent validates narrative claims in the text against extracted data points from figures and charts.
 *   **Task Planner Agent Pipeline:** For multi-modality questions like `q_025`, relying on a single ReAct loop can cause context drops. I would implement an upfront "Planner Agent" that decomposes the objective into discrete sub-tasks (e.g., 1. Calculate Growth, 2. Retrieve Strategic Context from PDF), ensuring no modality is bypassed.
 *   **Hybrid Search:** Add BM25 or keyword matching to the vector search to avoid missing exact entities disguised within long prose in the 10-K.
 *   **Context Window Windowing:** Add token cutoff safeguards for the context window on long multi-turn execution histories to minimize latency and unbounded token costs.
