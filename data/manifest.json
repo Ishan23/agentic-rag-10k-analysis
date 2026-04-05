@@ -1,0 +1,21 @@
+{
+  "description": "Assignment assets used by this take-home.",
+  "database": {
+    "path": "data/financials.db",
+    "tables": [
+      "companies",
+      "income_statements",
+      "balance_sheets",
+      "segment_revenue",
+      "geographic_revenue"
+    ]
+  },
+  "pdfs": [
+    "data/pdfs/AAPL_FY2024_10-K.pdf",
+    "data/pdfs/AAPL_FY2025_10-K.pdf",
+    "data/pdfs/GOOGL_FY2024_10-K.pdf",
+    "data/pdfs/GOOGL_FY2025_10-K.pdf",
+    "data/pdfs/MSFT_FY2024_10-K.pdf",
+    "data/pdfs/MSFT_FY2025_10-K.pdf"
+  ]
+}

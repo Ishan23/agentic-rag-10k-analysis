@@ -1,0 +1,85 @@
+[
+  {
+    "id": "q_001",
+    "question": "What was Apple's total net revenue in fiscal year 2025?",
+    "tier": 1,
+    "required_modalities": [
+      "sql"
+    ]
+  },
+  {
+    "id": "q_006",
+    "question": "What were the primary risk factors Apple disclosed related to its supply chain in its fiscal year 2025 10-K filing?",
+    "tier": 1,
+    "required_modalities": [
+      "pdf"
+    ]
+  },
+  {
+    "id": "q_008",
+    "question": "What percentage of Microsoft's total revenue came from the United States in fiscal year 2025?",
+    "tier": 1,
+    "required_modalities": [
+      "sql"
+    ]
+  },
+  {
+    "id": "q_011",
+    "question": "Which company had the fastest revenue growth rate between their two most recent fiscal years, and what was the growth rate?",
+    "tier": 2,
+    "required_modalities": [
+      "sql"
+    ]
+  },
+  {
+    "id": "q_012",
+    "question": "How did Apple's Greater China revenue change between fiscal year 2024 and fiscal year 2025, and does the 10-K filing explain why?",
+    "tier": 2,
+    "required_modalities": [
+      "sql",
+      "pdf"
+    ]
+  },
+  {
+    "id": "q_014",
+    "question": "Microsoft restructured its segment reporting in August 2024. How are the three segments defined in the fiscal year 2025 10-K, and what was the revenue for each?",
+    "tier": 2,
+    "required_modalities": [
+      "sql",
+      "pdf"
+    ]
+  },
+  {
+    "id": "q_017",
+    "question": "According to Alphabet's 10-K filings, what are the key components of 'Google Services' revenue, and how did YouTube advertising revenue change between FY2024 and FY2025?",
+    "tier": 2,
+    "required_modalities": [
+      "pdf"
+    ]
+  },
+  {
+    "id": "q_018",
+    "question": "Which company has the highest current ratio (current assets / current liabilities) in their most recent fiscal year?",
+    "tier": 2,
+    "required_modalities": [
+      "sql"
+    ]
+  },
+  {
+    "id": "q_022",
+    "question": "Across all three companies, which saw the largest absolute dollar increase in revenue between their two most recent fiscal years? Break down how much of that increase came from each business segment.",
+    "tier": 3,
+    "required_modalities": [
+      "sql"
+    ]
+  },
+  {
+    "id": "q_025",
+    "question": "Apple's Services segment has been growing as a share of total revenue. Calculate the Services revenue growth rate for each of the last two years, compare it to iPhone revenue growth, and find what Apple's 10-K says about the strategic importance of Services.",
+    "tier": 3,
+    "required_modalities": [
+      "sql",
+      "pdf"
+    ]
+  }
+]

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fireworks 10-K Analyst Agent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        :root {
+            --primary: #FF5A36;
+            --bg-color: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --text-muted: #8b949e;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background-color: var(--surface);
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            scroll-behavior: smooth;
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            flex-direction: column;
+            max-width: 85%;
+            animation: fadeIn 0.3s ease-out forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.user {
+            align-self: flex-end;
+        }
+
+        .message.agent {
+            align-self: flex-start;
+        }
+
+        .bubble {
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            line-height: 1.6;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .bubble {
+            background: linear-gradient(135deg, var(--primary), #d93d1a);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+
+        .message.agent .bubble {
+            background-color: var(--surface);
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 2px;
+        }
+
+        .message.agent .bubble code {
+            background: #0d1117;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+        }
+
+        .message.agent .bubble pre {
+            background: #0d1117;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            border: 1px solid var(--border);
+        }
+
+        .message.agent .bubble table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .message.agent .bubble th,
+        .message.agent .bubble td {
+            border: 1px solid var(--border);
+            padding: 0.5rem;
+        }
+
+        .metrics-banner {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .metrics-banner span {
+            background: var(--surface);
+            padding: 2px 8px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+
+        .input-area {
+            background-color: var(--surface);
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .input-container {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            background: var(--bg-color);
+            padding: 0.5rem;
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            transition: border-color 0.2s;
+        }
+
+        .input-container:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 1px var(--primary);
+        }
+
+        input[type="text"] {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 0.5rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            background: #ff7555;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background: var(--border);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .typing-indicator {
+            display: none;
+            align-self: flex-start;
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            gap: 5px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0);
+            }
+
+            40% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <div class="logo-dot"></div>
+            Fireworks 10-K Analyst
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-muted);">Agentic RAG System</div>
+    </header>
+
+    <main id="chat-window">
+        <div class="chat-container" id="chat">
+            <div class="message agent">
+                <div class="bubble">
+                    Hello! I have secure access to Apple, Microsoft, and Alphabet 10-K filings and structural SQLite
+                    financial records. Ask me anything.
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Animation -->
+        <div class="chat-container">
+            <div class="typing-indicator" id="loading">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+    </main>
+
+    <div class="input-area">
+        <div class="input-container">
+            <input type="text" id="user-input"
+                placeholder="e.g. Compare Apple's hardware revenue vs Microsoft's cloud revenue..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        const inputField = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const chatBox = document.getElementById('chat');
+        const loadingBox = document.getElementById('loading');
+        const chatWindow = document.getElementById('chat-window');
+
+        function scrollToBottom() {
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        }
+
+        function addMessage(content, sender, metrics = null) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `message ${sender}`;
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            if (sender === 'agent' && content) {
+                bubble.innerHTML = marked.parse(content);
+            } else {
+                bubble.innerText = content;
+            }
+
+            wrapper.appendChild(bubble);
+
+            if (metrics && sender === 'agent') {
+                const met = document.createElement('div');
+                met.className = 'metrics-banner';
+                let htmlStr = `<span>⏱ ${metrics.latency_ms}ms</span>
+                               <span>🔄 ${metrics.turn_count} turns</span>
+                               <span>🪙 ${metrics.total_tokens} tokens</span>`;
+                if (metrics.sql_queries && metrics.sql_queries.length > 0) {
+                    htmlStr += `<span>🛠 ${metrics.sql_queries.length} SQL queries</span>`;
+                }
+                met.innerHTML = htmlStr;
+                wrapper.appendChild(met);
+            }
+
+            chatBox.appendChild(wrapper);
+            scrollToBottom();
+        }
+
+        async function handleSend() {
+            const text = inputField.value.trim();
+            if (!text) return;
+
+            addMessage(text, 'user');
+            inputField.value = '';
+            inputField.disabled = true;
+            sendBtn.disabled = true;
+            loadingBox.style.display = 'flex';
+            scrollToBottom();
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ question: text })
+                });
+
+                const data = await response.json();
+                loadingBox.style.display = 'none';
+
+                if (response.ok) {
+                    addMessage(data.answer, 'agent', data.metrics);
+                } else {
+                    addMessage("Error: " + (data.detail || "Server error occurred"), 'agent');
+                }
+            } catch (err) {
+                loadingBox.style.display = 'none';
+                addMessage("Failed to connect to the server. Is main.py running?", 'agent');
+            }
+
+            inputField.disabled = false;
+            sendBtn.disabled = false;
+            inputField.focus();
+            scrollToBottom();
+        }
+
+        sendBtn.addEventListener('click', handleSend);
+        inputField.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleSend();
+        });
+    </script>
+</body>
+
+</html>

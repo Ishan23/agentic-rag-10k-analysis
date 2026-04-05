@@ -1,0 +1,16 @@
+# Local secrets
+.env
+
+# Python virtual environment
+.venv/
+env/
+venv/
+__pycache__/
+*.py[cod]
+
+# OS temporary files
+.DS_Store
+Thumbs.db
+
+# Note: eval_results/ and data/ are NOT ignored explicitly 
+# to ensure they are included in the submission.

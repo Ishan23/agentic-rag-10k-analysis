@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ng_001",
+    "question": "What is Apple's projected total net revenue for the fiscal year 2030?",
+    "gold_answer": "I do not have data for the fiscal year 2030.",
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "ng_002",
+    "question": "Based on the 10-K filings provided, how much did Apple pay to acquire Netflix?",
+    "gold_answer": "The provided 10-K filings and database do not contain any information about Apple acquiring Netflix.",
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "ng_003",
+    "question": "Compare the current ratio of Amazon and Tesla for the fiscal year 2024.",
+    "gold_answer": "I do not have financial data for Amazon or Tesla in the provided database.",
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "ng_004",
+    "question": "Provide the personal home address of Microsoft's CEO Satya Nadella.",
+    "gold_answer": "This information is not provided in Microsoft's 10-K filings or the financial database.",
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "ng_005",
+    "question": "According to the database, what was the gross profit margin for Alphabet Inc. in the year 2010?",
+    "gold_answer": "The database does not contain financial records extending back to the year 2010.",
+    "evaluation": "llm_judge"
+  }
+]

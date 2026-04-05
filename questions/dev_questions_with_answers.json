@@ -1,0 +1,115 @@
+[
+  {
+    "id": "q_001",
+    "question": "What was Apple's total net revenue in fiscal year 2025?",
+    "tier": 1,
+    "gold_answer": "$416.2 billion",
+    "gold_answer_numeric": 416161000000,
+    "required_modalities": [
+      "sql"
+    ],
+    "evaluation": "fuzzy_numeric"
+  },
+  {
+    "id": "q_006",
+    "question": "What were the primary risk factors Apple disclosed related to its supply chain in its fiscal year 2025 10-K filing?",
+    "tier": 1,
+    "gold_answer": "Apple disclosed risks including: reliance on single or limited sources for components; dependence on third-party manufacturers; supply chain disruptions from geopolitical tensions, natural disasters, and health emergencies; component supply constraints affecting product availability; and risks from concentration of manufacturing operations in specific regions.",
+    "gold_answer_numeric": null,
+    "required_modalities": [
+      "pdf"
+    ],
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "q_008",
+    "question": "What percentage of Microsoft's total revenue came from the United States in fiscal year 2025?",
+    "tier": 1,
+    "gold_answer": "51.3%",
+    "gold_answer_numeric": 51.3,
+    "required_modalities": [
+      "sql"
+    ],
+    "evaluation": "fuzzy_numeric"
+  },
+  {
+    "id": "q_011",
+    "question": "Which company had the fastest revenue growth rate between their two most recent fiscal years, and what was the growth rate?",
+    "tier": 2,
+    "gold_answer": "Alphabet (GOOGL) had the fastest revenue growth between the two most recent fiscal years at about 15.1%.",
+    "gold_answer_numeric": 15.1,
+    "required_modalities": [
+      "sql"
+    ],
+    "evaluation": "exact_match_entity"
+  },
+  {
+    "id": "q_012",
+    "question": "How did Apple's Greater China revenue change between fiscal year 2024 and fiscal year 2025, and does the 10-K filing explain why?",
+    "tier": 2,
+    "gold_answer": "Apple's Greater China revenue decreased from $66.95 billion in FY2024 to $64.38 billion in FY2025, a decline of approximately 3.8%. The FY2025 10-K states this was primarily due to lower net sales of iPhone, partially offset by higher net sales of Mac.",
+    "gold_answer_numeric": null,
+    "required_modalities": [
+      "sql",
+      "pdf"
+    ],
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "q_014",
+    "question": "Microsoft restructured its segment reporting in August 2024. How are the three segments defined in the fiscal year 2025 10-K, and what was the revenue for each?",
+    "tier": 2,
+    "gold_answer": "The three segments in the FY2025 10-K are: (1) Productivity and Business Processes ($120.8B) - includes Microsoft 365 Commercial/Consumer, LinkedIn, and Dynamics; (2) Intelligent Cloud ($106.3B) - includes Azure, SQL Server, Windows Server, GitHub, and enterprise services; (3) More Personal Computing ($54.6B) - includes Windows, Devices, Gaming, and Search/news advertising.",
+    "gold_answer_numeric": null,
+    "required_modalities": [
+      "sql",
+      "pdf"
+    ],
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "q_017",
+    "question": "According to Alphabet's 10-K filings, what are the key components of 'Google Services' revenue, and how did YouTube advertising revenue change between FY2024 and FY2025?",
+    "tier": 2,
+    "gold_answer": "Google Services includes Google Search & other, YouTube ads, Google Network, and Google subscriptions/platforms/devices. YouTube advertising revenue grew from $36.1 billion in FY2024 to $40.4 billion in FY2025, an increase of approximately 11.7%.",
+    "gold_answer_numeric": null,
+    "required_modalities": [
+      "pdf"
+    ],
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "q_018",
+    "question": "Which company has the highest current ratio (current assets / current liabilities) in their most recent fiscal year?",
+    "tier": 2,
+    "gold_answer": "Alphabet (GOOGL) has the highest current ratio in the most recent fiscal year (about 2.01x).",
+    "gold_answer_numeric": 2.01,
+    "required_modalities": [
+      "sql"
+    ],
+    "evaluation": "exact_match_entity"
+  },
+  {
+    "id": "q_022",
+    "question": "Across all three companies, which saw the largest absolute dollar increase in revenue between their two most recent fiscal years? Break down how much of that increase came from each business segment.",
+    "tier": 3,
+    "gold_answer": "Alphabet had the largest absolute increase at approximately $52.8B ($350.0B to $402.8B). By operating segment, Google Services grew by $37.8B ($304.9B to $342.7B), Google Cloud grew by $15.5B ($43.2B to $58.7B), and Other Bets declined by $0.1B ($1.6B to $1.5B); a hedging reconciliation of approximately -$0.3B accounts for the difference between the segment subtotal and consolidated revenue. Microsoft increased by $36.6B and Apple by $25.1B.",
+    "gold_answer_numeric": null,
+    "required_modalities": [
+      "sql"
+    ],
+    "evaluation": "llm_judge"
+  },
+  {
+    "id": "q_025",
+    "question": "Apple's Services segment has been growing as a share of total revenue. Calculate the Services revenue growth rate for each of the last two years, compare it to iPhone revenue growth, and find what Apple's 10-K says about the strategic importance of Services.",
+    "tier": 3,
+    "gold_answer": "Services growth: FY2023->FY2024: 12.9% ($85.2B to $96.2B), FY2024->FY2025: 13.5% ($96.2B to $109.2B). iPhone growth: FY2023->FY2024: 0.3%, FY2024->FY2025: 4.2%. Services is consistently growing much faster. The 10-K highlights Services as a key growth driver with higher margins, recurring revenue from subscriptions, App Store, Apple Music, iCloud, and advertising.",
+    "gold_answer_numeric": null,
+    "required_modalities": [
+      "sql",
+      "pdf"
+    ],
+    "evaluation": "llm_judge"
+  }
+]

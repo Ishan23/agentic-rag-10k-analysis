@@ -1,0 +1,7 @@
+# Setup and starter dependencies for local experimentation.
+openai
+ipython
+pandas
+pymupdf
+requests
+playwright
