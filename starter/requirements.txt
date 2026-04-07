@@ -1,7 +1,13 @@
 # Setup and starter dependencies for local experimentation.
 openai
-ipython
 pandas
+numpy
 pymupdf
+python-dotenv
+fastapi
+uvicorn
+pydantic
 requests
 playwright
+ipython
+tqdm
